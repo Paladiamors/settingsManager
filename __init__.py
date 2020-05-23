@@ -31,16 +31,11 @@ class SettingsManager:
 
     def getBasePath(self):
         """
-        if the dirname of the root directory is settingsManager
-        return that directory.
-        Otherwise return one level lower as we expect this code 
+        Return one level lower as we expect this code 
         to be cloned into a project
         """
-        basename, dirname = os.path.split(os.path.dirname(__file__))
-        if dirname == "settingsManager":
-            return os.path.dirname(__file__)
-        else:
-            return basename
+        basename = os.path.dirname(os.path.dirname(__file__))
+        return basename
 
     def loadSettings(self, settingsFileName=None):
         """
@@ -67,16 +62,16 @@ class SettingsManager:
         sets up the file directories file paths
         """
 
-        for pathInfo in settings["createDirs"]:
+        for pathInfo in settings.get("createDirs", []):
             os.makedirs(os.path.join(self.basePath, pathInfo["path"]), exist_ok=True)
             pathKey = pathInfo.get("key") or os.path.basename(pathInfo["path"])
             self.pathDict[pathKey] = os.path.join(self.basePath, pathInfo["path"])
 
-        for pathInfo in settings["dirs"]:
+        for pathInfo in settings.get("dirs", []):
             pathKey = pathInfo.get("key") or os.path.basename(pathInfo["path"])
             self.pathDict[pathKey] = os.path.join(self.basePath, pathInfo["path"])
 
-        for fileInfo in settings["files"]:
+        for fileInfo in settings.get("files", []):
             filename = os.path.basename(fileInfo["path"])
             fileKey = fileInfo.get("key") or filename
             self.fileDict[fileKey] = os.path.join(self.basePath, fileInfo["path"])
