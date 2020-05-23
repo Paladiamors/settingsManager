@@ -1,0 +1,35 @@
+{
+	"createDirs": [
+		{
+			"path": "dataDir"
+		},
+		{
+			"path": "dataDir/something"
+		}
+	],
+	"dirs": [
+		{
+			"path": "exists/test1"
+		},
+		{
+			"path": "exists/test2"
+		}
+	],
+	"files": [
+		{
+			"path": "exists/test2/file.txt"
+		},
+		{
+			"path": "exists/test2/file2.txt",
+			"key": "file2"
+		}
+	],
+	"settings": {
+		"env": "prod",
+		"somethingElse": "someValue",
+		"redis": {
+			"host": "localhost",
+			"port": 8000
+		}
+	}
+}
