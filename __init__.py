@@ -82,7 +82,7 @@ class SettingsManager:
     def getFile(self, key):
         return self.fileDict[key]
 
-    def getSetting(self, key):
+    def getSetting(self, key, default=None):
         """
         takes a string of key1/key2
         and returns the value of self.settings["key1"]["key2"]
@@ -99,7 +99,7 @@ class SettingsManager:
         for key in keys:
             value = value.get(key)
             if not value:
-                return None
+                return default
         return value
 
 
