@@ -11,7 +11,7 @@ import os
 import shutil
 import unittest
 from pprint import pprint
-from settings import get_settings
+from settings import get_settings, default
 
 
 class Test(unittest.TestCase):
@@ -19,10 +19,11 @@ class Test(unittest.TestCase):
     def test_settings(self):
 
         base_path = os.path.dirname(__file__)
-        settings = get_settings(base_path=base_path)
+        self.assertTrue(not default, "default should be None")
+        settings = get_settings(env="dev", base_path=base_path)
+        self.assertTrue(default["env"] == "dev", "default should be dev")
         settings.load_settings("settings.dev.json")
         self.assertTrue(settings.settings, "settings should exist")
-        pprint(settings.settings)
 
         base_path = settings.base_path
 

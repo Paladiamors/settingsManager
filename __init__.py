@@ -105,9 +105,17 @@ class SettingsManager:
 
 
 settings = {}
+default = {}
 
 
-def get_settings(env="dev", base_path=None) -> SettingsManager:
+def get_settings(env=None, base_path=None) -> SettingsManager:
+
+    if not default and not env:
+        raise RuntimeError("env must be specified when run for the first time")
+    if not default:
+        default["env"] = env
+    if not env:
+        env = default["env"]
     if env not in settings:
         settings[env] = SettingsManager(env=env, base_path=base_path)
 
