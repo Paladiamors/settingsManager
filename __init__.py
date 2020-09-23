@@ -111,7 +111,11 @@ default = {}
 def get_settings(env=None, base_path=None) -> SettingsManager:
 
     if not default and not env:
-        raise RuntimeError("env must be specified when run for the first time")
+        try:
+            from env import env as imported_env
+            env = imported_env
+        except ImportError:
+            raise RuntimeError("env must be specified or defined in env.py")
     if not default:
         default["env"] = env
     if not env:
