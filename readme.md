@@ -6,11 +6,11 @@ Clone this module into your project and simply access the settings manager throu
 ```
 from settingsManager import settingsManager
 
-settingsManager.getSettings("someValue")
+settingsManager.get_setting("someValue")
 
 # for nested json lookup, simply just use a slash to access the parameter
-settingsManager.getSettings("redis/host")
-settingsManager.getSettings("redis/port")
+settingsManager.get_setting("redis/host")
+settingsManager.get_setting("redis/port")
 ```
 
 The settingsManager will by default look for a `settings.json` file in your home directory and parse as soon as the import happens. If you wish to parse a file in a different location, simply call settingsManager.loadSettings("path/to/filename").
