@@ -7,8 +7,19 @@
 # all copies or substantial portions of the Software.
 ###############################################################################
 
+
+import collections.abc
 import os
 import json
+
+
+def update(d, u):
+    for k, v in u.items():
+        if isinstance(v, collections.abc.Mapping):
+            d[k] = update(d.get(k, {}), v)
+        else:
+            d[k] = v
+    return d
 
 
 class SettingsManager:
@@ -18,6 +29,7 @@ class SettingsManager:
     default location for the settings file is
     settings.json
     """
+    default_file_name = "settings.default.json"
 
     def __init__(self, env="dev", base_path=None):
 
@@ -46,12 +58,20 @@ class SettingsManager:
         if settings_file_name:
             self.settings_file_name = settings_file_name
 
+        default_path = os.path.join(self.base_path, self.default_file_name)
         settings_path = os.path.join(self.base_path, self.settings_file_name)
+
+        if os.path.exists(default_path):
+            with open(default_path) as handle:
+                default = json.load(handle)
+        else:
+            default = {}
 
         if os.path.exists(settings_path):
             with open(settings_path) as handle:
                 settings = json.load(handle)
 
+                settings = update(default, settings)
                 self.parse_settings(settings)
 
     def parse_settings(self, settings):
