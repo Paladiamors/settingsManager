@@ -132,9 +132,11 @@ def get_settings(env=None, base_path=None) -> SettingsManager:
 
     if not default and not env:
         try:
-            from env import env as imported_env
-            env = imported_env
-        except ImportError:
+            import env as imported_env
+            env = imported_env.env
+            if hasattr(imported_env, "settings_dir"):
+                base_path = imported_env.settings_dir
+        except AttributeError:
             raise RuntimeError("env must be specified or defined in env.py")
     if not default:
         default["env"] = env
