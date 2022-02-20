@@ -39,7 +39,7 @@ class SettingsManager:
         self.settings_file_name = f"settings.{env}.json"
 
         # ensure to install this package at the first level of the project
-        self.base_path = base_path or self.get_base_path()
+        self.base_path = os.path.join(self.get_base_path(), base_path) if base_path else self.get_base_path()
         self.load_settings()
 
     def get_base_path(self):
